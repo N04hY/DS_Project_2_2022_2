@@ -25,7 +25,7 @@
 ```
 10/13 - ver1 업로드
 11/02 - testcase1, result1 추가(2, 3도 이번주 내로 추가 예정)
-11/05 - testcase2, result2 추가
+11/05 - testcase2, result2, testcase3, result3 추가
 ```
 
 ### 2. 자주들어오는 질문 
