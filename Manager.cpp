@@ -2,7 +2,6 @@
 
 void Manager::run(const char* cmd_txt)
 {
-	ifstream fin;
 	fin.open(cmd_txt);
 	if(!fin)
 	{
