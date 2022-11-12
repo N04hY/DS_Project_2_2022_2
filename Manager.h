@@ -1,11 +1,17 @@
 #pragma once
 #include "FPGrowth.h"
 #include "BpTree.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
 
 class Manager
 {
 private:
-	char* cmd;
+	string cmd;
 	FPGrowth* fpgrowth;
 	BpTree* bptree;
 public:
@@ -24,7 +30,7 @@ public:
 	ofstream flog;
 	
 
-	void run(const char* command);
+	void run(const char* cmd_txt);
 	bool LOAD();
 	bool BTLOAD();
 	
@@ -38,6 +44,6 @@ public:
 
 	void printErrorCode(int n);
 	void printSuccessCode();
-
+	
 };
 

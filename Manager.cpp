@@ -1,8 +1,9 @@
 #include "Manager.h"
 
-void Manager::run(const char* command)
+void Manager::run(const char* cmd_txt)
 {
-	fin.open(command);
+	ifstream fin;
+	fin.open(cmd_txt);
 	if(!fin)
 	{
 		flog << "File Open Error" << endl;
@@ -10,7 +11,26 @@ void Manager::run(const char* command)
 	}
 	while (!fin.eof())
 	{
+		getline(fin, cmd);
+		if (cmd == "LOAD")
+			LOAD();
+		else if (cmd == "BTLOAD")
+			BTLOAD();
+		else if (cmd == "PRINT_ITEMLIST")
+			PRINT_ITEMLIST();
+		else if (cmd == "PRINT_FPTREE")
+			PRINT_FPTREE();
+		else if (cmd.find("PRINT_BPTREE") != string::npos)
+			PRINT_BPTREE(cmd);
+		else if (cmd.find("PRINT_CONFIDENCE") != string::npos)
+			PRINT_CONFIDENCE(cmd);
+		else if (cmd.find("PRINT_RANGE") != string::npos)
+			PRINT_RANGE(cmd);
+		else if (cmd == "EXIT")
+			~Manager();
+			// acording to cmd, execute cmd
 		/* You must fill here */
+	}
 	
 	fin.close();
 	return;
@@ -20,7 +40,9 @@ bool Manager::LOAD()
 {
 	return true;
 }
-
+// read "market.txt"
+// error when textfile don't exist, data already exist "ERROR 100" / Success
+// only lower alphabet, '\t' to separate each item, '\n' to separate each itemset
 
 
 
