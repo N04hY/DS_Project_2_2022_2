@@ -19,14 +19,32 @@ void Manager::run(const char* cmd_txt)
 			PRINT_ITEMLIST();
 		else if (cmd == "PRINT_FPTREE")
 			PRINT_FPTREE();
-		else if (cmd.find("PRINT_BPTREE") != string::npos)
-			PRINT_BPTREE(cmd);
-		else if (cmd.find("PRINT_CONFIDENCE") != string::npos)
-			PRINT_CONFIDENCE(cmd);
-		else if (cmd.find("PRINT_RANGE") != string::npos)
-			PRINT_RANGE(cmd);
-		else if (cmd == "EXIT")
-			~Manager();
+		else if (cmd.find("PRINT_BPTREE") != string::npos) {
+			option.clear();
+			stringstream ss(cmd);
+			while (getline(ss, cmd, ' ')) {
+				option.push_back(cmd);
+			}
+			PRINT_BPTREE(option[1], stoi(option[2]));
+		}
+		else if (cmd.find("PRINT_CONFIDENCE") != string::npos) {
+			option.clear();
+			stringstream ss2(cmd);
+			while (getline(ss2, cmd, ' ')) {
+				option.push_back(cmd);
+			}
+			PRINT_CONFIDENCE(option[1], stof(option[2]));
+		}
+		else if (cmd.find("PRINT_RANGE") != string::npos) {
+			option.clear();
+			stringstream ss3(cmd);
+			while (getline(ss3, cmd, ' ')) {
+				option.push_back(cmd);
+			}
+			PRINT_RANGE(option[1], stoi(option[2]), stoi(option[3]));
+		}
+	//	else if (cmd == "EXIT")
+	//		~Manager();
 			// acording to cmd, execute cmd
 		/* You must fill here */
 	}
@@ -37,9 +55,10 @@ void Manager::run(const char* cmd_txt)
 
 bool Manager::LOAD()
 {
+	cout << "LOAD\n";
 	return true;
 }
-// read "market.txt"
+// read "market.txt" -> fp-growth
 // error when textfile don't exist, data already exist "ERROR 100" / Success
 // only lower alphabet, '\t' to separate each item, '\n' to separate each itemset
 
@@ -47,37 +66,41 @@ bool Manager::LOAD()
 
 bool Manager::BTLOAD()
 {
-	
+	cout << "BTLOAD\n";
+
 	return true;
 }
 
 bool Manager::PRINT_ITEMLIST() {
-	
+	cout << "PRINT_ITEMLIST\n";
 }
 
 bool Manager::PRINT_FPTREE() {
-	
+	cout << "PRINT_FPTREE\n";
 }
 
-bool Manager::PRINT_BPTREE(char* item, int min_frequency) {
+bool Manager::PRINT_BPTREE(string item, int min_frequency) {
 	
+	cout << "PRINT_BPTREE " << item << " " << min_frequency << endl;
 }
 
-bool Manager::PRINT_CONFIDENCE(char* item, double rate) {
+bool Manager::PRINT_CONFIDENCE(string item, double rate) {
 	
+	cout << "PRINT_CONFIDENCE " << item << " " << rate << endl;
 }
 
-bool Manager::PRINT_RANGE(char* item, int start, int end) {
+bool Manager::PRINT_RANGE(string item, int start, int end) {
 	
+	cout << "PRINT_RANGE " << start << " " << end << endl;
 }
 
 void Manager::printErrorCode(int n) {				//ERROR CODE PRINT
-	flog << ERROR " << n << " << endl;
-	flog << "=======================" << endl << endl;
+	flog << "ERROR " << n << endl;
+	flog << "=======================\n\n";
 }
 
 void Manager::printSuccessCode() {//SUCCESS CODE PRINT 
-	flog << "Success" << endl;
-	flog << "=======================" << endl << endl;
+	flog << "Success\n";
+	flog << "=======================\n\n";
 }
 

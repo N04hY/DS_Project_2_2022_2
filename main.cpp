@@ -3,8 +3,7 @@
 using namespace std;
 
 int main() {
-	Manager manager(2,3); //first value is threshold of fpgrowth, second value is order of bptree 
+	Manager manager(2, 3);
 	manager.run("command.txt");
 	return 0;
 }
-

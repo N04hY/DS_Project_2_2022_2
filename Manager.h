@@ -1,9 +1,12 @@
 #pragma once
-#include "FPGrowth.h"
-#include "BpTree.h"
+//#include "FPGrowth.h"
+//#include "BpTree.h"
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
+#include <vector>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -12,8 +15,9 @@ class Manager
 {
 private:
 	string cmd;
-	FPGrowth* fpgrowth;
-	BpTree* bptree;
+	vector<string> option;
+//	FPGrowth* fpgrowth;
+//	BpTree* bptree;
 public:
 	Manager(int threshold, int bpOrder)	//constructor
 	{
@@ -37,9 +41,9 @@ public:
 	bool PRINT_ITEMLIST();
 	bool PRINT_FPTREE();
 
-	bool PRINT_RANGE(char* item, int start, int end);
-	bool PRINT_CONFIDENCE(char* item, double rate);
-	bool PRINT_BPTREE(char* item, int min_frequency);
+	bool PRINT_RANGE(string item, int start, int end);
+	bool PRINT_CONFIDENCE(string item, double rate);
+	bool PRINT_BPTREE(string item, int min_frequency);
 
 
 	void printErrorCode(int n);
