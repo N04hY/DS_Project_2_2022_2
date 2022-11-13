@@ -22,7 +22,7 @@ void Manager::run(const char* cmd_txt)
 		else if (cmd.find("PRINT_BPTREE") != string::npos) {
 			option.clear();
 			stringstream ss(cmd);
-			while (getline(ss, cmd, ' ')) {
+			while (getline(ss, cmd, '\t')) {
 				option.push_back(cmd);
 			}
 			PRINT_BPTREE(option[1], stoi(option[2]));
@@ -30,7 +30,7 @@ void Manager::run(const char* cmd_txt)
 		else if (cmd.find("PRINT_CONFIDENCE") != string::npos) {
 			option.clear();
 			stringstream ss2(cmd);
-			while (getline(ss2, cmd, ' ')) {
+			while (getline(ss2, cmd, '\t')) {
 				option.push_back(cmd);
 			}
 			PRINT_CONFIDENCE(option[1], stof(option[2]));
@@ -38,7 +38,7 @@ void Manager::run(const char* cmd_txt)
 		else if (cmd.find("PRINT_RANGE") != string::npos) {
 			option.clear();
 			stringstream ss3(cmd);
-			while (getline(ss3, cmd, ' ')) {
+			while (getline(ss3, cmd, '\t')) {
 				option.push_back(cmd);
 			}
 			PRINT_RANGE(option[1], stoi(option[2]), stoi(option[3]));
@@ -55,6 +55,8 @@ void Manager::run(const char* cmd_txt)
 
 bool Manager::LOAD()
 {
+	ifstream market;
+	market.open("market.txt");
 	cout << "LOAD\n";
 	return true;
 }
@@ -73,25 +75,33 @@ bool Manager::BTLOAD()
 
 bool Manager::PRINT_ITEMLIST() {
 	cout << "PRINT_ITEMLIST\n";
+		return true;
+
 }
 
 bool Manager::PRINT_FPTREE() {
 	cout << "PRINT_FPTREE\n";
+	return true;
+
 }
 
 bool Manager::PRINT_BPTREE(string item, int min_frequency) {
 	
+
 	cout << "PRINT_BPTREE " << item << " " << min_frequency << endl;
+	return true;
 }
 
 bool Manager::PRINT_CONFIDENCE(string item, double rate) {
 	
 	cout << "PRINT_CONFIDENCE " << item << " " << rate << endl;
+	return true;
 }
 
 bool Manager::PRINT_RANGE(string item, int start, int end) {
 	
 	cout << "PRINT_RANGE " << start << " " << end << endl;
+	return true;
 }
 
 void Manager::printErrorCode(int n) {				//ERROR CODE PRINT

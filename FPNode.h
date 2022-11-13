@@ -1,8 +1,10 @@
 #pragma once
-
+#include <iostream>
+#include <string>
 #include <cstring>
 #include <map>
 #include <cmath>
+
 using namespace std;
 class FPNode
 {
