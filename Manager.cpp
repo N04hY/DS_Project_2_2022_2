@@ -3,6 +3,7 @@
 void Manager::run(const char* cmd_txt)
 {
 	fin.open(cmd_txt);
+	flog.open("log.txt", ios::app);
 	if(!fin)
 	{
 		flog << "File Open Error" << endl;
@@ -21,32 +22,30 @@ void Manager::run(const char* cmd_txt)
 			PRINT_FPTREE();
 		else if (cmd.find("PRINT_BPTREE") != string::npos) {
 			option.clear();
-			stringstream ss(cmd);
-			while (getline(ss, cmd, '\t')) {
+			stringstream sso(cmd);
+			while (getline(sso, cmd, '\t')) {
 				option.push_back(cmd);
 			}
 			PRINT_BPTREE(option[1], stoi(option[2]));
 		}
 		else if (cmd.find("PRINT_CONFIDENCE") != string::npos) {
 			option.clear();
-			stringstream ss2(cmd);
-			while (getline(ss2, cmd, '\t')) {
+			stringstream sso2(cmd);
+			while (getline(sso2, cmd, '\t')) {
 				option.push_back(cmd);
 			}
 			PRINT_CONFIDENCE(option[1], stof(option[2]));
 		}
 		else if (cmd.find("PRINT_RANGE") != string::npos) {
 			option.clear();
-			stringstream ss3(cmd);
-			while (getline(ss3, cmd, '\t')) {
+			stringstream sso3(cmd);
+			while (getline(sso3, cmd, '\t')) {
 				option.push_back(cmd);
 			}
 			PRINT_RANGE(option[1], stoi(option[2]), stoi(option[3]));
 		}
 	//	else if (cmd == "EXIT")
 	//		~Manager();
-			// acording to cmd, execute cmd
-		/* You must fill here */
 	}
 	
 	fin.close();
@@ -55,9 +54,22 @@ void Manager::run(const char* cmd_txt)
 
 bool Manager::LOAD()
 {
+	fpgrowth = new FPGrowth(&flog, threshold);
 	ifstream market;
 	market.open("market.txt");
-	cout << "LOAD\n";
+	string itemset;
+	string item;
+	while (!market.eof())
+	{
+		getline(market, itemset);
+		stringstream ssis(itemset);
+		while (getline(ssis, item, '\t')) {
+			fpgrowth->createTable(item, 1);
+		}
+	}	
+	fpgrowth->printList();
+
+	cout << "LOAD \n";
 	return true;
 }
 // read "market.txt" -> fp-growth

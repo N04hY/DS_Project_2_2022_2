@@ -1,6 +1,9 @@
 #pragma once
 #include "FPNode.h"
 #include <list>
+#include <algorithm>
+
+using namespace std;
 
 class HeaderTable
 {
@@ -10,13 +13,12 @@ private:
 public:
 	HeaderTable() { }
 	~HeaderTable();
-	void insertTable(char* item, int frequency);
+	void insertTable(string item, int frequency);
 	list<pair<int, string>> getindexTable() { return indexTable; }
 	map<string, FPNode*> getdataTable() { return dataTable; }
 	FPNode* getNode(string item) { return dataTable.find(item)->second; }
 	void descendingIndexTable() { indexTable.sort(greater<pair<int, string>>()); }
-	void ascendingIndexTable() { indexTable.sort(); }
+	void ascendingIndexTable() { indexTable.sort(less<pair<int, string>>()); }
 	int find_frequency(string item);
 };
-
 

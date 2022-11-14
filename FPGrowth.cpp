@@ -40,7 +40,10 @@ void FPGrowth::powerSet(map<set<string>, int>* FrequentPattern, vector<string> d
 }
 
 bool FPGrowth::printList() {
-
+	list<pair<int,string>> idx_table = table->getindexTable();
+	list<pair<int,string>>::iterator iter;
+	for (iter = idx_table.begin(); iter != idx_table.end(); iter++)
+		cout << iter->first << " " << iter->second << endl;
 	return true;
 }
 bool FPGrowth::printTree() {

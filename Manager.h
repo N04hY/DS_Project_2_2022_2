@@ -1,5 +1,5 @@
 #pragma once
-//#include "FPGrowth.h"
+#include "FPGrowth.h"
 //#include "BpTree.h"
 #include <iostream>
 #include <fstream>
@@ -14,14 +14,18 @@ using namespace std;
 class Manager
 {
 private:
+	int threshold;
+	int bpOrder;
 	string cmd;
 	vector<string> option;
-//	FPGrowth* fpgrowth;
+	FPGrowth* fpgrowth;
 //	BpTree* bptree;
 public:
 	Manager(int threshold, int bpOrder)	//constructor
 	{
-		/* You must fill here */
+		
+		this->threshold = threshold;
+		this->bpOrder = bpOrder;
 	}
 
 
@@ -32,7 +36,6 @@ public:
 
 	ifstream fin;
 	ofstream flog;
-	
 
 	void run(const char* cmd_txt);
 	bool LOAD();
