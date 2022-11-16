@@ -14,10 +14,10 @@ private:
 	FPNode* next;
 	map<string, FPNode*> children;
 public:
-	FPNode();
+	FPNode();// NULL value except for children
 	~FPNode();
 	void setParent(FPNode* node) { this->parent = node; }
-	void setNext(FPNode* node) { next = node; }
+	void setNext(FPNode* node) { this->next = node; }
 	void pushchildren(string item, FPNode* node) { children.insert(map<string, FPNode*>::value_type(item, node)); }
 	void updateFrequency(int frequency) { this->frequency += frequency; }
 

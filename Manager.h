@@ -23,11 +23,10 @@ private:
 public:
 	Manager(int threshold, int bpOrder)	//constructor
 	{
-		
 		this->threshold = threshold;
 		this->bpOrder = bpOrder;
+		fpgrowth = NULL;
 	}
-
 
 	~Manager()//destructor
 	{

@@ -54,28 +54,52 @@ void Manager::run(const char* cmd_txt)
 
 bool Manager::LOAD()
 {
-	fpgrowth = new FPGrowth(&flog, threshold);
-	ifstream market;
-	market.open("market.txt");
-	string itemset;
-	string item;
-	while (!market.eof())
-	{
-		getline(market, itemset);
-		stringstream ssis(itemset);
-		while (getline(ssis, item, '\t')) {
-			fpgrowth->createTable(item, 1);
-		}
-	}	
-	fpgrowth->printList();
+	cout << "==========LOAD=========\n";
+	flog << "==========LOAD=========\n";
 
-	cout << "LOAD \n";
+	ifstream market("market.txt"); 
+	if (!market.is_open() || fpgrowth) { // text file doesn't exist or data already exist
+		printErrorCode(100);
+		return false;
+	}
+	fpgrowth = new FPGrowth(&flog, threshold);
+
+	vector<list<pair<int, string>>> itemsets;
+	list<pair<int, string>> itemset; 
+	pair<int, string> item; 
+	string temp;
+	
+	while (!market.eof()) // extract data from market.txt to itemsets, 
+	{
+		getline(market, temp);
+		stringstream ssis(temp);
+		while (getline(ssis, temp, '\t')) {
+			item.second = temp;
+			fpgrowth->createTable(item.second, 1);
+			itemset.push_back(item);
+		}
+		itemsets.push_back(itemset);
+		itemset.clear();
+	}	
+	fpgrowth->descendingList();
+	
+	list<pair<int,string>> *idx = fpgrowth->getHeaderTable()->getindexTable();
+	list<pair<int,string>>::iterator iter_trv; // iterator to traverse itemsets
+	list<pair<int,string>>::iterator iter_find; // iterator to find item in idx
+	for (int i = 0; i < itemsets.size(); i++) {
+		for (iter_trv = itemsets[i].begin(); iter_trv != itemsets[i].end(); iter_trv++) {
+			iter_find = find_if(idx->begin(), idx->end(),
+			 [&iter_trv](const pair<int, string>& idx){ return idx.second == iter_trv->second; }); //find item
+			iter_trv->first = iter_find->first; // copy frequency from index table to itemsets
+		}
+		itemsets[i].sort(greater<pair<int, string>>()); // item from market.txt sort by frequency
+		
+		fpgrowth->createFPtree(fpgrowth->getTree(), fpgrowth->getHeaderTable(), itemsets[i], 1);
+	}
+
+	printSuccessCode();
 	return true;
 }
-// read "market.txt" -> fp-growth
-// error when textfile don't exist, data already exist "ERROR 100" / Success
-// only lower alphabet, '\t' to separate each item, '\n' to separate each itemset
-
 
 
 bool Manager::BTLOAD()
@@ -85,16 +109,34 @@ bool Manager::BTLOAD()
 	return true;
 }
 
-bool Manager::PRINT_ITEMLIST() {
-	cout << "PRINT_ITEMLIST\n";
+bool Manager::PRINT_ITEMLIST() { 
+	cout << "========PRINT_ITEMLIST=========\n";
+	flog << "========PRINT_ITEMLIST=========\n";
+	if (!fpgrowth || !fpgrowth->getHeaderTable()) { // header table doesn't exist
+		printErrorCode(300);
+		return false;
+	}
+	else { // header table exist
+		cout << "Item\tFrequency\n";
+		fpgrowth->printList();
+		cout << "===============================\n";
 		return true;
-
+	}
 }
 
 bool Manager::PRINT_FPTREE() {
-	cout << "PRINT_FPTREE\n";
-	return true;
-
+	cout << "========PRINT_FPTREE========\n";
+	flog << "========PRINT_FPTREE========\n";
+	if (!fpgrowth || !fpgrowth->getTree()) { // fp tree doesn't exist
+		printErrorCode(400);
+		return false;
+	}
+	else {
+		cout << "{StandardItem,Frequency} {Path_Item,Frequency}\n";
+		fpgrowth->printTree();
+		cout << "===============================\n";
+		return true;
+	}
 }
 
 bool Manager::PRINT_BPTREE(string item, int min_frequency) {
@@ -119,10 +161,14 @@ bool Manager::PRINT_RANGE(string item, int start, int end) {
 void Manager::printErrorCode(int n) {				//ERROR CODE PRINT
 	flog << "ERROR " << n << endl;
 	flog << "=======================\n\n";
+	cout << "ERROR " << n << endl;
+	cout << "=======================\n\n";
 }
 
 void Manager::printSuccessCode() {//SUCCESS CODE PRINT 
 	flog << "Success\n";
 	flog << "=======================\n\n";
+	cout << "Success\n";
+	cout << "=======================\n\n";
 }
 

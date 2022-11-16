@@ -14,9 +14,9 @@ FPNode::~FPNode()//destructor
 }
 
 FPNode* FPNode::getChildrenNode(string item) {
-	map<string, FPNode*>::iterator it = children.find(item);
-	if (it == children.end()) return NULL;
-	FPNode* findNode = it->second;
+	map<string, FPNode*>::iterator iter = children.find(item);
+	if (iter == children.end()) return NULL; 
+	FPNode* findNode = iter->second;
 	return findNode;
 }
 
