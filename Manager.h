@@ -1,6 +1,6 @@
 #pragma once
 #include "FPGrowth.h"
-//#include "BpTree.h"
+#include "BpTree.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -19,13 +19,14 @@ private:
 	string cmd;
 	vector<string> option;
 	FPGrowth* fpgrowth;
-//	BpTree* bptree;
+	BpTree* bptree;
 public:
 	Manager(int threshold, int bpOrder)	//constructor
 	{
 		this->threshold = threshold;
 		this->bpOrder = bpOrder;
 		fpgrowth = NULL;
+		bptree = NULL;
 	}
 
 	~Manager()//destructor

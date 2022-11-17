@@ -1,7 +1,18 @@
 #include "BpTree.h"
 
 bool BpTree::Insert(int key, set<string> set) {
-
+	if (root->getMostLeftChild() == NULL) {
+		root = new BpTreeDataNode;
+		root->setMostLeftChild(root);
+	}
+//	if (excessDataNode(root)) {
+//		root = new BpTreeIndexNode;
+//	}
+	
+	
+	FrequentPatternNode* fpNode;
+	fpNode->InsertList(set);
+	root->insertDataMap(key , fpNode);
 	return true;
 }
 
@@ -44,15 +55,15 @@ bool BpTree::printRange(string item, int min, int max) {
 	return true;
 }
 void BpTree::printFrequentPatterns(set<string> pFrequentPattern) {
-	*fout << "{";
+	*flog << "{";
 	set<string> curPattern = pFrequentPattern;
 	for (set<string>::iterator it = curPattern.begin(); it != curPattern.end();) {
 		string temp = *it++;
-		*fout << temp;
+		*flog << temp;
 		if (it == curPattern.end()) {
-			*fout << "} ";
+			*flog << "} ";
 			break;
 		}
-		*fout << ", ";
+		*flog << ", ";
 	}
 }

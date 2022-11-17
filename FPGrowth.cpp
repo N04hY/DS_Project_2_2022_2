@@ -13,7 +13,6 @@ void FPGrowth::createFPtree(FPNode* root, HeaderTable* table, list<pair<int,stri
 		if (iter->first < threshold)
 			continue;
 		else {
-			cout << iter->second << " ";
 			if (find_child = curr->getChildrenNode(iter->second)) { // find child with same item
 				find_child->updateFrequency(1);
 				curr = find_child;
@@ -28,7 +27,6 @@ void FPGrowth::createFPtree(FPNode* root, HeaderTable* table, list<pair<int,stri
 			curr = fpChild;
 		}
 	}
-	cout << endl;
 }
 
 void FPGrowth::connectNode(HeaderTable* table, string item, FPNode* node) {

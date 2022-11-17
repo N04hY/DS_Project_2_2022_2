@@ -104,8 +104,45 @@ bool Manager::LOAD()
 
 bool Manager::BTLOAD()
 {
-	cout << "BTLOAD\n";
+	cout << "==========BTLOAD=========\n";
+	flog << "==========BTLOAD=========\n";
 
+	ifstream result("result.txt"); 
+	if (!result.is_open() || bptree) { // text file doesn't exist or data already exist
+		printErrorCode(300);
+		return false;
+	}
+	bptree = new BpTree(&flog, bpOrder);
+
+	string temp;
+	int key;
+	set<string> FPset;
+	
+	while (!result.eof()) // extract data from market.txt to itemsets, 
+	{
+		getline(result, temp);
+		stringstream ssrs(temp);
+		getline(ssrs, temp, '\t');
+		if (temp[0] < '0' || temp[0] > '9') { // exception for first word in a line is not a key
+			continue;
+		}
+		key = stoi(temp);
+		while (getline(ssrs, temp, '\t')) {
+			FPset.insert(temp);			
+		}
+//		cout << key << " ";
+//		set<string>::iterator iter;
+//		for (iter = FPset.begin(); iter != FPset.end(); iter++) {
+//			cout << iter->data() << " ";
+//		}
+//		cout << endl;
+		bptree->Insert(key, FPset);
+		FPset.clear();
+	}	
+	
+
+
+	printSuccessCode();
 	return true;
 }
 
@@ -147,7 +184,7 @@ bool Manager::PRINT_BPTREE(string item, int min_frequency) {
 }
 
 bool Manager::PRINT_CONFIDENCE(string item, double rate) {
-	
+	// until under . 2 units print
 	cout << "PRINT_CONFIDENCE " << item << " " << rate << endl;
 	return true;
 }

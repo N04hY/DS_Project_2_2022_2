@@ -10,20 +10,22 @@ class BpTree {
 private:
 	BpTreeNode* root;
 	int			order;		// m children
-	ofstream* fout;
+	ofstream* flog;
 public:
-	BpTree(ofstream *fout, int order = 3) {
+	BpTree(ofstream *flog, int order = 3) {
 		root = NULL;
 		this->order = order;
-		this->fout = fout;
+		this->flog = flog;
 	}
 	~BpTree();
 	/* essential */
 	bool		Insert(int key, set<string> set);
+
 	bool		excessDataNode(BpTreeNode* pDataNode);
 	bool		excessIndexNode(BpTreeNode* pIndexNode);
 	void		splitDataNode(BpTreeNode* pDataNode);
 	void		splitIndexNode(BpTreeNode* pIndexNode);
+	
 	BpTreeNode* getRoot() { return root; }
 	BpTreeNode* searchDataNode(int n);
 
